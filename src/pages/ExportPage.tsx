@@ -1,14 +1,14 @@
 
 import React from 'react';
 import Layout from '../components/Layout';
-import Dashboard from '../components/Dashboard';
+import Export from '../components/Export';
 
-const Index = () => {
+const ExportPage = () => {
   return (
     <Layout>
-      <Dashboard />
+      <Export />
     </Layout>
   );
 };
 
-export default Index;
+export default ExportPage;
