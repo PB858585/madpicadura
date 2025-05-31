@@ -14,6 +14,17 @@ export const generateTrackingCodes = (patterns: string[], quantity: number): str
   return codes;
 };
 
+export const generateCodesFromPattern = (pattern: string, quantity: number): string[] => {
+  const codes: string[] = [];
+  
+  for (let i = 0; i < quantity; i++) {
+    const generatedCode = generateSingleCode(pattern);
+    codes.push(generatedCode);
+  }
+  
+  return codes;
+};
+
 const generateSingleCode = (pattern: string): string => {
   return pattern.replace(/\d/g, () => {
     return Math.floor(Math.random() * 10).toString();
