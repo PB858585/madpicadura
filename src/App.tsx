@@ -14,7 +14,7 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 const App = () => (
-  <div className="dark">
+  <div className="dark min-h-screen bg-black text-white">
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />

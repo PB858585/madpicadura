@@ -26,22 +26,22 @@ const Sidebar = ({ isCollapsed, onToggle }: SidebarProps) => {
   ];
 
   return (
-    <div className={`bg-gray-800 border-r border-gray-700 transition-all duration-300 ${
+    <div className={`bg-gray-900 border-r border-gray-800 transition-all duration-300 ${
       isCollapsed ? 'w-16' : 'w-64'
     }`}>
-      <div className="flex items-center justify-between p-4 border-b border-gray-700">
+      <div className="flex items-center justify-between p-4 border-b border-gray-800 bg-black">
         {!isCollapsed && (
           <h1 className="text-xl font-bold text-white">TrackGen</h1>
         )}
         <button
           onClick={onToggle}
-          className="p-2 rounded-lg hover:bg-gray-700 text-gray-400 hover:text-white transition-colors"
+          className="p-2 rounded-lg hover:bg-gray-800 text-gray-400 hover:text-white transition-colors"
         >
           {isCollapsed ? <Menu className="w-5 h-5" /> : <ChevronLeft className="w-5 h-5" />}
         </button>
       </div>
 
-      <nav className="p-4">
+      <nav className="p-4 bg-gray-900">
         <ul className="space-y-2">
           {menuItems.map((item) => (
             <li key={item.path}>
@@ -51,7 +51,7 @@ const Sidebar = ({ isCollapsed, onToggle }: SidebarProps) => {
                   `flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
                     isActive
                       ? 'bg-blue-600 text-white'
-                      : 'text-gray-400 hover:text-white hover:bg-gray-700'
+                      : 'text-gray-400 hover:text-white hover:bg-gray-800'
                   }`
                 }
               >

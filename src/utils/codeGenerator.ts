@@ -6,7 +6,7 @@ export const generateTrackingCodes = (patterns: string[], quantity: number): str
     if (!pattern.trim()) return;
     
     for (let i = 0; i < quantity; i++) {
-      const generatedCode = generateSingleCode(pattern);
+      const generatedCode = generateSequentialCode(pattern, i);
       codes.push(generatedCode);
     }
   });
@@ -18,17 +18,30 @@ export const generateCodesFromPattern = (pattern: string, quantity: number): str
   const codes: string[] = [];
   
   for (let i = 0; i < quantity; i++) {
-    const generatedCode = generateSingleCode(pattern);
+    const generatedCode = generateSequentialCode(pattern, i);
     codes.push(generatedCode);
   }
   
   return codes;
 };
 
-const generateSingleCode = (pattern: string): string => {
-  return pattern.replace(/\d/g, () => {
-    return Math.floor(Math.random() * 10).toString();
+// Gera códigos em ordem sequencial baseado no padrão
+const generateSequentialCode = (pattern: string, index: number): string => {
+  let result = pattern;
+  let digitIndex = 0;
+  
+  // Converter o índice para string com padding necessário
+  const indexStr = index.toString().padStart(9, '0');
+  
+  // Substituir cada dígito no padrão pela sequência
+  result = result.replace(/\d/g, () => {
+    if (digitIndex < indexStr.length) {
+      return indexStr[digitIndex++];
+    }
+    return '0';
   });
+  
+  return result;
 };
 
 export const organizeCodesInGroups = (codes: string[], groupSize: number = 40): string[][] => {
@@ -39,6 +52,42 @@ export const organizeCodesInGroups = (codes: string[], groupSize: number = 40): 
   }
   
   return groups;
+};
+
+// Organizar códigos por país
+export const organizeCodesByCountry = (codes: string[]): { [country: string]: string[] } => {
+  const codesByCountry: { [country: string]: string[] } = {};
+  
+  codes.forEach(code => {
+    const country = getCountryFromCode(code);
+    if (!codesByCountry[country]) {
+      codesByCountry[country] = [];
+    }
+    codesByCountry[country].push(code);
+  });
+  
+  return codesByCountry;
+};
+
+// Detectar país baseado no sufixo do código
+const getCountryFromCode = (code: string): string => {
+  const suffix = code.slice(-2);
+  const countries: { [key: string]: string } = {
+    'DE': 'Alemanha',
+    'US': 'Estados Unidos',
+    'FR': 'França',
+    'CN': 'China',
+    'BR': 'Brasil',
+    'RU': 'Rússia',
+    'GB': 'Reino Unido',
+    'JP': 'Japão',
+    'KR': 'Coreia do Sul',
+    'IT': 'Itália',
+    'CA': 'Canadá',
+    'AU': 'Austrália'
+  };
+  
+  return countries[suffix] || 'Outros';
 };
 
 export const exportToCSV = (codes: any[], filename: string = 'tracking_codes'): void => {
